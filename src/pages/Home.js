@@ -1,9 +1,12 @@
-import React from 'react'
-
+import React from "react";
+import { ItemList, FilterData } from "../components";
 function Home() {
   return (
-    <div>Home</div>
-  )
+    <div>
+      <FilterData />
+      <ItemList />
+    </div>
+  );
 }
 
-export default Home
+export default Home;
