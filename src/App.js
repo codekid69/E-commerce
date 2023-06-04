@@ -27,6 +27,7 @@ import "./styles/confirmOrder.css";
 import "./styles/globalVariable.css";
 import "./styles/filterData.css";
 import "./styles/itemList.css";
+import "./styles/totalprice.css";
 
 function App() {
   if (false) {
