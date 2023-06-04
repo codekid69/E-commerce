@@ -24,8 +24,14 @@ import "./styles/notfound.css";
 import "./styles/loader.css";
 import "./styles/navbar.css";
 import "./styles/confirmOrder.css";
+import "./styles/globalVariable.css";
+import "./styles/filterData.css";
+import "./styles/itemList.css";
 
 function App() {
+  if (false) {
+    return <Loader />;
+  }
   return (
     <>
       <Router>

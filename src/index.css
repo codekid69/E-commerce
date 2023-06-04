@@ -12,6 +12,7 @@ a {
 
 body {
   box-sizing: border-box;
+  background-color: rgb(229, 229, 229) !important;
 }
 
 ul {
