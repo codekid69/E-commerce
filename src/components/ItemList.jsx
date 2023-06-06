@@ -4,6 +4,7 @@ import { BsFillPencilFill } from "react-icons/bs";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 function ItemList() {
+ 
   const [check, setCheck] = useState(false);
   const [data, setData] = useState({
     name: "",
@@ -16,9 +17,11 @@ function ItemList() {
   const id=12121;
   return (
     <>
-      {arr.map((x) => {
+  
+
+      {arr.map((x,index) => {
         return (
-          <section className="listItem">
+          <section className={check ? "listItem":"listItemFalse"} key={index}>
             <div className="left">
               <div className="images">
                 {
@@ -39,7 +42,7 @@ function ItemList() {
                 }
               </div>
               <div>
-                <div>
+                <div className="input_set">
                   {check ? (
                     <span className="productName">Read Seat</span>
                   ) : (
@@ -83,9 +86,9 @@ function ItemList() {
                     <>
                       {" "}
                       <p>Rating</p>
-                      <input
+                      <input className="last_input"
                         type="text"
-                        value={data.price}
+                        value={data.rating}
                         onChange={(e) =>
                           setData((prev) => ({
                             ...prev,
@@ -110,7 +113,7 @@ function ItemList() {
                 ) : (
                   <textarea
                     rows="5"
-                    cols="55"
+                  
                     type="text"
                     value={data.content}
                     onChange={(e) =>
@@ -148,7 +151,7 @@ function ItemList() {
                     <button className="update" onClick={() => setCheck(true)}>
                       Cancel
                     </button>
-                    <button className="update">Save</button>
+                    <button className="update" onClick={()=>console.log('hello world')}>Save</button>
                   </>
                 )}
               </div>
