@@ -3,36 +3,34 @@
 
 
 .loader {
-    height: 100vh;
+    height: 50vh;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
 
 }
 
 .loader h1 {
+    /* transition: translate(-50%,-50%); */
     color: var(--primary-color);
+    /* color: black; */
     font-size: 3rem;
-    animation: infinite-animation 1.5s ease-in-out infinite;
+    animation: infinite-animation 0.5s ease-in-out infinite;
 }
 
 @keyframes infinite-animation {
     0% {
-        font-size: 1rem;
-        animation-timing-function: ease-in;
-        animation-delay: 0s;
+        font-size: 3rem;
+        /* animation-timing-function: ease-in; */
+        /* animation-delay: 0s; */
     }
 
-    50% {
-        font-size: 2rem;
-        animation-timing-function: ease-out;
-        animation-delay: 2.5s;
-    }
 
     100% {
-        font-size: 4rem;
-        animation-timing-function: ease-in;
-        animation-delay: 5s;
+        font-size: 6rem;
+        /* animation-timing-function: ease-in; */
+        /* animation-delay: 5s; */
     }
 }

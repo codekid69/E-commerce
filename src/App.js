@@ -28,11 +28,23 @@ import "./styles/globalVariable.css";
 import "./styles/filterData.css";
 import "./styles/itemList.css";
 import "./styles/totalprice.css";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchData } from "./redux/reducers/product";
+import { useEffect } from "react";
+import { pureFinalPropsSelectorFactory } from "react-redux/es/connect/selectorFactory";
 
 function App() {
-  if (false) {
-    return <Loader />;
-  }
+//  const dispatch=useDispatch();
+//   useEffect(() => {
+//     dispatch(fetchData());
+//   },[dispatch])
+
+  // const isLoading=useSelector((state)=>state.product.isLoading);
+  // console.log("LOADING",isLoading);
+  // if (false) {
+  //   return <h1>LOADING ....</h1>;
+  //   // console.log("INLOADERRR",isLoading);
+  // }
   return (
     <>
       <Router>

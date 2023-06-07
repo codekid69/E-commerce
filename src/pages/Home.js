@@ -1,6 +1,6 @@
-import React from "react";
-import { ItemList, FilterData } from "../components";
+import { ItemList, FilterData, Loader } from "../components";
 function Home() {
+ 
   return (
     <div>
       <FilterData />
