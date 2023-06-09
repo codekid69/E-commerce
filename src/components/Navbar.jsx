@@ -1,7 +1,8 @@
 import React from 'react'
-
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 function Navbar() {
+  const {cart}=useSelector((state)=>state.cart)
   return (
     <>
     
@@ -20,7 +21,7 @@ function Navbar() {
              <Link to='/cart' >
               <div className='cart'>
                 <img src="https://cdn-icons-png.flaticon.com/512/3737/3737372.png" alt="" />
-                <span>10</span>
+                <span>{cart.length}</span>
               </div>
              </Link>
             </li>

@@ -2,48 +2,80 @@ import React, { useEffect } from "react";
 import { AiFillDelete } from "react-icons/ai";
 import { BsFillPencilFill } from "react-icons/bs";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteData, fetchData } from "../redux/reducers/product";
+import { deleteData, fetchData,productUpdate,editModeCancel,updateCall } from "../redux/reducers/product";
+import {pushCart } from "../redux/reducers/cart";
+
 import Loader from "./Loader";
 function ItemList() {
-  
+  const navigate=useNavigate();
   const dispatch = useDispatch();
+  
   const [check, setCheck] = useState(false);
   const [data, setData] = useState({
     name: "",
     price: "",
     rating: "",
     content: "",
+   
   });
 
   useEffect(() => {
     dispatch(fetchData());
   },[dispatch])
 
-  const {product,isLoading}=useSelector((state)=>state.product);
-  if (isLoading) {
-    return <Loader/>;
-    // console.log("INLOADERRR",isLoading);
+  const {product,isLoading,sorted}=useSelector((state)=>state.product);
+  const {addToCart}=useSelector((state)=>state.cart);
+console.log('cart is: ',addToCart)
+  const UpdateSave=(x)=>{
+const obj={
+  name: data.name?data.name:x.name,
+     price:data.price?data.price:x.price,
+    rating:data.rating?data.rating:x.rating,
+    content:data.content?data.content:x.content,
+    id:x.id,
+}
+
+console.log('57247624',obj)
+dispatch(updateCall(obj));
   }
-  // const { product } = useSelector((state) => state.product);
-  // console.log("rerender",product);
-  let arr = [1, 2, 3, 4, 5];
-  console.log(data);
-  const id = 12121;
+let filterData=[];
+console.log(sorted)
+ if(sorted){
+ filterData=[...product].sort( (a,b)=>{ return a.price-b.price})
+
+ }else{
+  filterData=product;
+ }
+
+// handleAddToCart
+
+const handleAddToCart=(cart)=>{
+  const obj={
+    name:cart.name,
+    qty:1,
+    price:cart.price,
+    image:cart.image,
+  }
+dispatch(pushCart(obj));
+}
+
+
   return (
     <>
 
 
-      {product?.map((x) => {
+      { filterData.map((x) => {
         return (
-          <section className={check ? "listItem" : "listItemFalse"} key={x.id}>
+          <section className={x.editable ? "listItem" : "listItemFalse"} key={x.id}>
             <div className="left">
               <div className="images">
                 {
-                  check ?
+                  x.editable ?
                     <>
-                      <Link to={`/product/${id}`} >
+                      <Link to={`/product/${x.id}`} >
                         <img
                           src={x.image}
                           alt={x.name}
@@ -59,12 +91,12 @@ function ItemList() {
               </div>
               <div>
                 <div className="input_set">
-                  {check ? (
+                  {x.editable ? (
                     <span className="productName">{x.name}</span>
                   ) : (
                     <input
                       type="text"
-                      value={x.name}
+                      defaultValue={x.name}
                       onChange={(e) =>
                         setData((prev) => ({
                           ...prev,
@@ -74,7 +106,7 @@ function ItemList() {
                     />
                   )}
                   <br />
-                  {check ? (
+                  {x.editable ? (
                     <>
                       {" "}
                       <span>RS {x.price}</span>
@@ -84,7 +116,7 @@ function ItemList() {
                       <span>RS</span>
                       <input
                         type="text"
-                        value={x.price}
+                        defaultValue={x.price}
                         onChange={(e) =>
                           setData((prev) => ({
                             ...prev,
@@ -96,15 +128,15 @@ function ItemList() {
                   )}
                 </div>
                 <div>
-                  {check ? (
+                  {x.editable ? (
                     <span>{x.rating}</span>
                   ) : (
                     <>
                       {" "}
                       <p>Rating</p>
                       <input className="last_input"
-                        type="text"
-                        value={x.rating}
+                        type="number"
+                        defaultValue={x.rating}
                         onChange={(e) =>
                           setData((prev) => ({
                             ...prev,
@@ -119,7 +151,7 @@ function ItemList() {
             </div>
             <div className="right">
               <div>
-                {check ? (
+                {x.editable ? (
                   <p>
                     {x.content}
                   </p>
@@ -128,7 +160,7 @@ function ItemList() {
                     rows="5"
 
                     type="text"
-                    value={x.content}
+                    defaultValue={x.content}
                     onChange={(e) =>
                       setData((prev) => ({
                         ...prev,
@@ -139,21 +171,31 @@ function ItemList() {
                 )}
               </div>
               <div className="btns">
-                {check ? (
-                  <button className="ADD_CART bg-danger mt-1 px-2 py-2">
+                {x.editable ? (
+//                  <>
+//                  {
+// addToCart?  <button onClick={()=>navigate('/cart')} className="ADD_CART bg-danger mt-1 px-2 py-2">
+//                     GO TO CART
+//                   </button>:  
+<button onClick={()=>handleAddToCart(x)} className="ADD_CART bg-danger mt-1 px-2 py-2">
                     ADD TO CART
                   </button>
+                //  }
+              
+                 
+                
+                // </>
                 ) : (
                   ""
                 )}
-                {check ? (
+                {x.editable ? (
                   <>
                     <button onClick={()=>dispatch(deleteData(x.id))}>
                       <AiFillDelete
                         style={{ color: "red", fontSize: "20px" }}
                       />
                     </button>
-                    <button onClick={() => setCheck(false)}>
+                    <button onClick={() => dispatch(productUpdate(x.id))}>
                       <BsFillPencilFill
                         style={{ color: "yellow", fontSize: "20px" }}
                       />
@@ -161,10 +203,10 @@ function ItemList() {
                   </>
                 ) : (
                   <>
-                    <button className="update" onClick={() => setCheck(true)}>
+                    <button className="update" onClick={() => dispatch(editModeCancel(x.id))}>
                       Cancel
                     </button>
-                    <button className="update" onClick={() => console.log('hello world')}>Save</button>
+                    <button className="update" onClick={() => UpdateSave(x)}>Save</button>
                   </>
                 )}
               </div>

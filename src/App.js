@@ -1,4 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchData } from "./redux/reducers/product";
+import { useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
   AddProducts,
@@ -28,23 +31,19 @@ import "./styles/globalVariable.css";
 import "./styles/filterData.css";
 import "./styles/itemList.css";
 import "./styles/totalprice.css";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchData } from "./redux/reducers/product";
-import { useEffect } from "react";
-import { pureFinalPropsSelectorFactory } from "react-redux/es/connect/selectorFactory";
 
 function App() {
-//  const dispatch=useDispatch();
-//   useEffect(() => {
-//     dispatch(fetchData());
-//   },[dispatch])
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchData());
+  }, [dispatch]);
 
-  // const isLoading=useSelector((state)=>state.product.isLoading);
-  // console.log("LOADING",isLoading);
-  // if (false) {
-  //   return <h1>LOADING ....</h1>;
-  //   // console.log("INLOADERRR",isLoading);
-  // }
+  const { product, isLoading } = useSelector((state) => state.product);
+  // console.log("LOADING**", isLoading);
+  if (false) {
+    return <h1>LOADING ....</h1>;
+  }
+
   return (
     <>
       <Router>
